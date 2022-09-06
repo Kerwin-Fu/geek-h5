@@ -9,6 +9,7 @@ import {
 
 import Login from '@/pages/Login'
 import Layout from '@/pages/Layout'
+import PlayGround from '@/pages/Playground'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           ></Route>
           <Route path={'/login'} component={Login}></Route>
           <Route path={'/home'} component={Layout}></Route>
+          <Route path={'/playGround'} component={PlayGround}></Route>
         </Switch>
       </div>
     </Router>

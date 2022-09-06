@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { Toast } from 'antd-mobile'
+import axios, { AxiosError } from 'axios'
 
 const instance = axios.create({
   baseURL: 'http://geek.itheima.net/v1_0/',
@@ -18,7 +19,12 @@ instance.interceptors.response.use(
   function (response) {
     return response
   },
-  function (error) {
+  function (error: AxiosError<{ message: string }>) {
+    if (!error.response) {
+      Toast.show('网络繁忙，请稍后重试')
+      return Promise.reject(error)
+    }
+    Toast.show(error.response.data.message)
     return Promise.reject(error)
   }
 )
