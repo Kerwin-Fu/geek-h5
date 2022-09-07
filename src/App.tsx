@@ -10,12 +10,12 @@ import {
 import Login from '@/pages/Login'
 import Layout from '@/pages/Layout'
 import PlayGround from '@/pages/Playground'
+import ProfileEdit from './pages/Profile/Edit'
 
 function App() {
   return (
     <Router>
       <div className="app">
-      
         <Switch>
           <Route
             exact
@@ -25,6 +25,7 @@ function App() {
           <Route path={'/login'} component={Login}></Route>
           <Route path={'/home'} component={Layout}></Route>
           <Route path={'/playGround'} component={PlayGround}></Route>
+          <Route path="/profile/edit" component={ProfileEdit} />
         </Switch>
       </div>
     </Router>
