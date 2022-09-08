@@ -18,7 +18,7 @@ export const getUserProfile = (): RootThunkAction => {
     const res = await request.get<ApiResponse<UserProfile>>('/user/profile')
     dispatch({
       type: 'profile/getUserProfile',
-      payload: res.data.data
+      payload: res.data.data,
     })
   }
 }

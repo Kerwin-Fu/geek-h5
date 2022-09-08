@@ -1,17 +1,34 @@
-import { useEffect } from 'react'
-import { Button, List, DatePicker, NavBar } from 'antd-mobile'
+import { useEffect, useState } from 'react'
+import { Button, List, DatePicker, NavBar, Popup } from 'antd-mobile'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import styles from './index.module.scss'
 import { getUserProfile } from '@/store/actions/profile'
 import { RootState } from '@/types/store'
-const Item = List.Item
+import EditInput from './EditInput'
+
+type InputState = {
+  visible: boolean
+  type: '' | 'name' | 'intro'
+}
 
 const ProfileEdit = () => {
+  const [showInput, setShowInput] = useState<InputState>({
+    type: '',
+    visible: false
+  })
+  const Item = List.Item
   const history = useHistory()
   const dispatch = useDispatch()
   const { userProfile } = useSelector((state: RootState) => state.profile)
+
+  const hideInput = () => {
+    setShowInput({
+      type: '',
+      visible: false
+    })
+  }
 
   useEffect(() => {
     dispatch(getUserProfile())
@@ -19,7 +36,6 @@ const ProfileEdit = () => {
   return (
     <div className={styles.root}>
       <div className="content">
-        {/* 标题 */}
         <NavBar
           style={{
             '--border-bottom': '1px solid #F0F0F0'
@@ -30,9 +46,7 @@ const ProfileEdit = () => {
         </NavBar>
 
         <div className="wrapper">
-          {/* 列表 */}
           <List className="profile-list">
-            {/* 列表项 */}
             <Item
               extra={
                 <span className="avatar-wrapper">
@@ -43,7 +57,11 @@ const ProfileEdit = () => {
             >
               头像
             </Item>
-            <Item arrow extra={userProfile.name}>
+            <Item
+              arrow
+              extra={userProfile.name}
+              onClick={() => setShowInput({ visible: true, type: 'name' })}
+            >
               昵称
             </Item>
             <Item
@@ -53,6 +71,7 @@ const ProfileEdit = () => {
                   {userProfile.intro}
                 </span>
               }
+              onClick={() => setShowInput({ visible: true, type: 'intro' })}
             >
               简介
             </Item>
@@ -80,6 +99,16 @@ const ProfileEdit = () => {
           <Button className="btn">退出登录</Button>
         </div>
       </div>
+      <Popup
+        visible={showInput.visible}
+        position="right"
+        onMaskClick={() => setShowInput({ type: '', visible: false })}
+        destroyOnClose
+      >
+        <div style={{ height: 400, width: '80vw' }}>
+          <EditInput hideInput={hideInput} type={showInput.type}></EditInput>
+        </div>
+      </Popup>
     </div>
   )
 }
