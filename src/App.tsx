@@ -3,8 +3,8 @@ import './App.scss'
 import {
   BrowserRouter as Router,
   Redirect,
+  Switch,
   Route,
-  Switch
 } from 'react-router-dom'
 
 import Login from '@/pages/Login'
